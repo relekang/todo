@@ -1,0 +1,42 @@
+{
+  "name": "@relekang/todo-re",
+  "version": "0.0.0",
+  "description": "A todo cli",
+  "esy": {
+    "build": "dune build -p todo",
+    "buildDev": "pesy",
+    "release": { "releasedBinaries": [ "TodoApp.exe" ] }
+  },
+  "buildDirs": {
+    "test": {
+      "require": [ "todo-re.lib" ],
+      "main": "TestTodo",
+      "name": "TestTodo.exe"
+    },
+    "library": { "name": "todo-re.lib", "namespace": "Todo" },
+    "executable": {
+      "require": [ "cmdliner", "pastel.lib", "console.lib", "todo-re.lib" ],
+      "main": "TodoApp",
+      "name": "TodoApp.exe"
+    }
+  },
+  "scripts": {
+    "pesy": "bash -c 'env PESY_MODE=update pesy'",
+    "test": "esy x TestTodo.exe"
+  },
+  "dependencies": {
+    "@esy-ocaml/reason": "*",
+    "@opam/cmdliner": "1.0.4",
+    "@opam/dune": ">=1.6.0",
+    "@reason-native/console": "^0.1.0",
+    "@reason-native/pastel": "^0.2.1",
+    "isexe": "^2.0.0",
+    "ocaml": "^4.4.0"
+  },
+  "devDependencies": {
+    "ocaml": "4.7.1004",
+    "refmterr": "*",
+    "pesy": "*",
+    "@opam/merlin": "*"
+  }
+}
