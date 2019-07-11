@@ -7,4 +7,5 @@
    (name Todo)
    ; Other libraries list this name in their package.json 'require' field to use this library.
    (public_name todo-re.lib)
+   (libraries  yaml )
 )

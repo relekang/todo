@@ -1,3 +1,4 @@
+
 let data = ref(["testy", "tester"]);
 
 let listTodos = () => data^;
@@ -15,3 +16,9 @@ let remove = (item: string) => {
   let (_, uncompleted) = List.partition(current => current == item, data^);
   data := uncompleted;
 };
+
+let t = Yaml.of_string("foo")
+
+add(t)
+
+

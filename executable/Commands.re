@@ -21,12 +21,12 @@ let next = () =>
   )
   |> Console.log;
 
-  let listTodos = () => {
-    open Pastel;
-    let data = Storage.listTodos()
-    List.map(Console.log, data);
-    ()
-  }
+let listTodos = () => {
+  open Pastel;
+  let data = Storage.listTodos();
+  let _ = List.map(Console.log, data);
+  ();
+};
 
 let add = item => {
   Storage.add(item);

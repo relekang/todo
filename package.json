@@ -13,7 +13,11 @@
       "main": "TestTodo",
       "name": "TestTodo.exe"
     },
-    "library": { "name": "todo-re.lib", "namespace": "Todo" },
+    "library": {
+      "name": "todo-re.lib",
+      "namespace": "Todo",
+      "require": ["yaml"]
+    },
     "executable": {
       "require": [ "cmdliner", "pastel.lib", "console.lib", "todo-re.lib" ],
       "main": "TodoApp",
@@ -28,6 +32,7 @@
     "@esy-ocaml/reason": "*",
     "@opam/cmdliner": "1.0.4",
     "@opam/dune": ">=1.6.0",
+    "@opam/yaml": "2.0.0",
     "@reason-native/console": "^0.1.0",
     "@reason-native/pastel": "^0.2.1",
     "isexe": "^2.0.0",
