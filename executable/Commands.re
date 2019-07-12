@@ -24,7 +24,34 @@ let next = () =>
 let listTodos = () => {
   open Pastel;
   let data = Storage.listTodos();
-  let _ = List.map(Console.log, data);
+  let next = Storage.next();
+  let (_, rest) = List.partition(current => Some(current) == next, data);
+  switch (next) {
+  | Some(item) =>
+    Console.log(
+      Pastel.(
+        <Pastel>
+          <Pastel bold=true color=Green> " · " </Pastel>
+          <Pastel bold=true> item </Pastel>
+        </Pastel>
+      ),
+    )
+  | None => ()
+  };
+
+  let _ =
+    List.map(
+      item =>
+        Console.log(
+          Pastel.(
+            <Pastel>
+              <Pastel bold=true color=Green> " · " </Pastel>
+              item
+            </Pastel>
+          ),
+        ),
+      rest,
+    );
   ();
 };
 
