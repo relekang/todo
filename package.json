@@ -1,25 +1,39 @@
 {
   "name": "@relekang/todo-re",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A todo cli",
   "esy": {
     "build": "dune build -p todo-re",
     "buildDev": "pesy",
-    "release": { "releasedBinaries": [ "TodoApp.exe" ] }
+    "release": {
+      "releasedBinaries": [
+        "TodoApp.exe"
+      ]
+    }
   },
   "buildDirs": {
     "test": {
-      "require": [ "todo-re.lib" ],
+      "require": [
+        "todo-re.lib"
+      ],
       "main": "TestTodo",
       "name": "TestTodo.exe"
     },
     "library": {
       "name": "todo-re.lib",
       "namespace": "Todo",
-      "require": [ "yaml", "yojson" ]
+      "require": [
+        "yaml",
+        "yojson"
+      ]
     },
     "executable": {
-      "require": [ "cmdliner", "pastel.lib", "console.lib", "todo-re.lib" ],
+      "require": [
+        "cmdliner",
+        "pastel.lib",
+        "console.lib",
+        "todo-re.lib"
+      ],
       "main": "TodoApp",
       "name": "TodoApp.exe"
     }
