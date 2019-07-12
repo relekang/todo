@@ -16,7 +16,7 @@
     "library": {
       "name": "todo-re.lib",
       "namespace": "Todo",
-      "require": ["yaml"]
+      "require": [ "yaml", "yojson" ]
     },
     "executable": {
       "require": [ "cmdliner", "pastel.lib", "console.lib", "todo-re.lib" ],
@@ -33,6 +33,7 @@
     "@opam/cmdliner": "1.0.4",
     "@opam/dune": ">=1.6.0",
     "@opam/yaml": "2.0.0",
+    "@opam/yojson": "1.7.0",
     "@reason-native/console": "^0.1.0",
     "@reason-native/pastel": "^0.2.1",
     "isexe": "^2.0.0",

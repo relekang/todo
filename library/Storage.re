@@ -17,8 +17,5 @@ let remove = (item: string) => {
   data := uncompleted;
 };
 
-let t = Yaml.of_string("foo")
-
-add(t)
-
-
+let json = Yojson.Basic.from_string("[\"testy\"]")
+let d = Yojson.Basic.Util.(json |> to_list)

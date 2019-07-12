@@ -1,5 +1,5 @@
 {
-  "checksum": "58df78b469dd729575a9975db55ac6c0",
+  "checksum": "178fce5dd908c9383b473b10b82ad8ff",
   "root": "@relekang/todo-re@link-dev:./package.json",
   "node": {
     "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#cca65f99674ed2d954d28788edeb8c57fada5ed0@d41d8cd9": {
@@ -91,7 +91,8 @@
         "ocaml@4.7.1004@d41d8cd9", "isexe@2.0.0@d41d8cd9",
         "@reason-native/pastel@0.2.1@d41d8cd9",
         "@reason-native/console@0.1.0@d41d8cd9",
-        "@opam/yaml@opam:2.0.0@47a2a3f5", "@opam/dune@opam:1.10.0@b15ce221",
+        "@opam/yojson@opam:1.7.0@2d92307e", "@opam/yaml@opam:2.0.0@47a2a3f5",
+        "@opam/dune@opam:1.10.0@b15ce221",
         "@opam/cmdliner@opam:1.0.4@93208aac",
         "@esy-ocaml/reason@3.4.0@d41d8cd9"
       ],
