@@ -27,7 +27,7 @@ sed -i '' 's/"TodoApp.exe":/"todo":/g' ./_release/package.json
 
 echo -e "${bold}Released $(git describe --abbrev=0).${reset} Publishing it."
 
-git push --follow-tags origin/master 
+git push --follow-tags origin master 
 
 cd _release
   npm publish
