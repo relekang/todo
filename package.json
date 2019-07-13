@@ -39,6 +39,8 @@
     }
   },
   "scripts": {
+    "echo-version": "echo $npm_package_version",
+    "version": "./scripts/version.sh",
     "pesy": "bash -c 'env PESY_MODE=update pesy'",
     "test": "esy x TestTodo.exe"
   },
