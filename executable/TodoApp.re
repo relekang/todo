@@ -1,5 +1,5 @@
 open Cmdliner;
-let version = "0.2.2";
+let version = "0.2.3";
 
 let default = (Term.(const(_ => Commands.next()) $ const()), Term.info("todo", ~version));
 
