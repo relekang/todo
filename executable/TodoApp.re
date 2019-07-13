@@ -1,10 +1,19 @@
 open Cmdliner;
 let version = "0.2.4";
 
-let default = (Term.(const(_ => Commands.next()) $ const()), Term.info("todo", ~version));
+let default = (
+  Term.(const(_ => Commands.next()) $ const()),
+  Term.info("todo", ~version, ~doc="Manage all the things to do."),
+);
 
 let next = {
-  Term.(const(_ => Commands.next()) $ const(), Term.info("next"));
+  Term.(
+    const(_ => Commands.next()) $ const(),
+    Term.info(
+      "next",
+      ~doc="Show next item on the list. This is also the default command.",
+    ),
+  );
 };
 
 let listTodos = {
@@ -14,13 +23,17 @@ let listTodos = {
       ();
     })
     $ const(),
-    Term.info("list"),
+    Term.info("list", ~doc="List all todos"),
   );
 };
 
 let add = {
   let item =
-    Arg.(value & pos(0, string, "") & info([], ~docv="string", ~doc=""));
+    Arg.(
+      value
+      & pos(0, string, "")
+      & info([], ~docv="string", ~doc="The name of the item to add.")
+    );
 
   Term.(
     const(item => {
@@ -28,13 +41,17 @@ let add = {
       ();
     })
     $ item,
-    Term.info("add"),
+    Term.info("add", ~doc="Add a new item."),
   );
 };
 
 let complete = {
   let item =
-    Arg.(value & pos(0, string, "") & info([], ~docv="string", ~doc=""));
+    Arg.(
+      value
+      & pos(0, string, "")
+      & info([], ~docv="string", ~doc="The name of the item to remove.")
+    );
 
   Term.(
     const(item => {
@@ -42,7 +59,7 @@ let complete = {
       ();
     })
     $ item,
-    Term.info("complete"),
+    Term.info("complete", ~doc="Complete an item. This will remove it."),
   );
 };
 
