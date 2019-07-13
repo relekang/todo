@@ -1,7 +1,7 @@
 open Cmdliner;
-let version = "0.0.1";
+let version = "0.2.2";
 
-let default = (Term.(const(_ => ()) $ const()), Term.info("todo", ~version));
+let default = (Term.(const(_ => Commands.next()) $ const()), Term.info("todo", ~version));
 
 let next = {
   Term.(const(_ => Commands.next()) $ const(), Term.info("next"));
