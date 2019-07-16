@@ -1,6 +1,6 @@
 {
   "name": "@relekang/todo-re",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A todo cli",
   "esy": {
     "build": "dune build -p todo-re",
