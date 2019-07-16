@@ -21,37 +21,60 @@ let next = () =>
   )
   |> Console.log;
 
-let listTodos = () => {
+let listTodos = format => {
   open Pastel;
   let data = Storage.listTodos();
   let next = Storage.next();
   let (_, rest) = List.partition(current => Some(current) == next, data);
   switch (next) {
   | Some(item) =>
-    Console.log(
-      Pastel.(
+    switch (format) {
+    | "bitbar" =>
+      Bitbar.(
+        [
+          [Item({title: item, action: None, nestedItems: []}), Line],
+          List.map(
+            item =>
+              Item({
+                title: item,
+                action: None,
+                nestedItems: [
+                  {
+                    title: "Complete",
+                    action: Command(ShellHelpers.complete(item)),
+                    nestedItems: [],
+                  },
+                ],
+              }),
+            rest,
+          ),
+          [Refresh],
+        ]
+        |> List.concat
+        |> linesToString
+        |> Console.log
+      )
+    | _ =>
+      [
         <Pastel>
           <Pastel bold=true color=Green> " · " </Pastel>
           <Pastel bold=true> item </Pastel>
-        </Pastel>
-      ),
-    )
+        </Pastel>,
+        ...List.map(
+             item =>
+               <Pastel>
+                 <Pastel bold=true color=Green> " · " </Pastel>
+                 item
+               </Pastel>,
+             rest,
+           ),
+      ]
+      |> Util.concatStrings
+      |> Console.log
+    }
   | None => ()
   };
 
-  let _ =
-    List.map(
-      item =>
-        Console.log(
-          Pastel.(
-            <Pastel>
-              <Pastel bold=true color=Green> " · " </Pastel>
-              item
-            </Pastel>
-          ),
-        ),
-      rest,
-    );
   ();
 };
 

@@ -17,12 +17,18 @@ let next = {
 };
 
 let listTodos = {
+  let format =
+    Arg.(
+      value
+      & opt(string, "simple")
+      & info(["f", "format"], ~doc="The format to output.")
+    );
   Term.(
-    const(_ => {
-      Commands.listTodos();
+    const(format => {
+      Commands.listTodos(format);
       ();
     })
-    $ const(),
+    $ format,
     Term.info("list", ~doc="List all todos"),
   );
 };
