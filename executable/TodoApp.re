@@ -2,13 +2,13 @@ open Cmdliner;
 let version = "0.3.0";
 
 let default = (
-  Term.(const(_ => Commands.next()) $ const()),
+  Term.(const(_ => Commands.next(None)) $ const()),
   Term.info("todo", ~version, ~doc="Manage all the things to do."),
 );
 
 let next = {
   Term.(
-    const(_ => Commands.next()) $ const(),
+    const(_ => Commands.next(None)) $ const(),
     Term.info(
       "next",
       ~doc="Show next item on the list. This is also the default command.",

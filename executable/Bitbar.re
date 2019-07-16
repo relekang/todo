@@ -41,11 +41,16 @@ let actionToString = action => {
 let concat = List.fold_left((a, b) => a ++ b, "");
 
 let rec itemToString = item =>
-    item.title
-    ++ argumentsSeparator
-    ++ actionToString(item.action)
-    ++ "\n"
-    ++ (item.nestedItems |> List.map(item => nestedPrefix ++ itemToString(item)) |> concat)
+  item.title
+  ++ argumentsSeparator
+  ++ actionToString(item.action)
+  ++ " emojize=true"
+  ++ "\n"
+  ++ (
+    item.nestedItems
+    |> List.map(item => nestedPrefix ++ itemToString(item))
+    |> concat
+  );
 
 let lineToString = bitbarLine => {
   switch (bitbarLine) {

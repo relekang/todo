@@ -1,32 +1,69 @@
-let path = Unix.getenv("HOME") ++ "/.todo-data.json";
+let configPath = Unix.getenv("HOME") ++ "/.todo-config.json";
 
-let load = () => {
-  let json = Yojson.Basic.from_file(path);
-  Yojson.Basic.Util.(json |> to_list |> filter_string);
+type config = {
+  basePath: string,
+  currentProfile: string,
+  profiles: list(string),
 };
 
-let save = (data: list(string)) => {
-  Yojson.Basic.(
-    to_file(path, `List(List.map(item => `String(item), data)))
+let loadConfig = () => {
+  Yojson.Basic.Util.(
+    switch (Yojson.Basic.from_file(configPath)) {
+    | json => {
+        basePath: json |> member("basePath") |> to_string,
+        currentProfile: json |> member("currentProfile") |> to_string,
+        profiles: json |> member("profiles") |> to_list |> filter_string,
+      }
+    | exception (Sys_error(_)) => {
+        basePath: Unix.getenv("HOME"),
+        currentProfile: "default",
+        profiles: ["default"],
+      }
+    }
   );
 };
 
-let listTodos = () => {
-  load();
+let getPath = profile => {
+  let config = loadConfig();
+  switch (profile) {
+  | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
+  | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
+  };
 };
 
-let next = () =>
-  switch (listTodos() |> List.hd) {
+let load = profile => {
+  switch (Yojson.Basic.from_file(getPath(profile))) {
+  | json => Yojson.Basic.Util.(json |> to_list |> filter_string)
+  | exception (Sys_error(_)) => []
+  };
+};
+
+let save = (profile, data: list(string)) => {
+  Yojson.Basic.(
+    to_file(
+      getPath(profile),
+      `List(List.map(item => `String(item), data)),
+    )
+  );
+};
+
+let listTodos = profile => {
+  load(profile);
+};
+
+let next = profile =>
+  switch (listTodos(profile) |> List.hd) {
   | item => Some(item)
   | exception (Failure(_)) => None
   };
 
-let add = (item: string) => {
-  let data = List.append(load(), [item]);
-  save(data);
+let add = (profile, item: string) => {
+  let data = List.append(load(profile), [item]);
+  save(profile, data);
 };
 
-let remove = (item: string) => {
-  let (_, uncompleted) = List.partition(current => current == item, load());
-  save(uncompleted);
+let remove = (profile, item: string) => {
+  let (_, uncompleted) =
+    List.partition(current => current == item, load(profile));
+  save(profile, uncompleted);
 };
