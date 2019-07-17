@@ -1,14 +1,22 @@
 open Cmdliner;
 let version = "2.0.0-rc.0";
 
+module CommonOptions = {
+  open Arg;
+  let profile =
+    value
+    & opt(some(string), None)
+    & info(["p", "profile"], ~doc="The profile to use to load the data.");
+};
+
 let default = (
-  Term.(const(_ => Commands.next(None)) $ const()),
+  Term.(const(profile => Commands.next(profile)) $ CommonOptions.profile),
   Term.info("todo", ~version, ~doc="Manage all the things to do."),
 );
 
 let next = {
   Term.(
-    const(_ => Commands.next(None)) $ const(),
+    const(profile => Commands.next(profile)) $ CommonOptions.profile,
     Term.info(
       "next",
       ~doc="Show next item on the list. This is also the default command.",
@@ -24,11 +32,12 @@ let listTodos = {
       & info(["f", "format"], ~doc="The format to output.")
     );
   Term.(
-    const(format => {
-      Commands.listTodos(format);
+    const((format, profile) => {
+      Commands.listTodos(profile, format);
       ();
     })
-    $ format,
+    $ format
+    $ CommonOptions.profile,
     Term.info("list", ~doc="List all todos"),
   );
 };
@@ -42,11 +51,12 @@ let add = {
     );
 
   Term.(
-    const(item => {
-      Commands.add(item);
+    const((item, profile) => {
+      Commands.add(profile, item);
       ();
     })
-    $ item,
+    $ item
+    $ CommonOptions.profile,
     Term.info("add", ~doc="Add a new item."),
   );
 };
@@ -60,11 +70,12 @@ let complete = {
     );
 
   Term.(
-    const(item => {
-      Commands.complete(item);
+    const((item, profile) => {
+      Commands.complete(profile, item);
       ();
     })
-    $ item,
+    $ item
+    $ CommonOptions.profile,
     Term.info("complete", ~doc="Complete an item. This will remove it."),
   );
 };

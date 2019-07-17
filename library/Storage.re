@@ -23,7 +23,7 @@ let loadConfig = () => {
   );
 };
 
-let getPath = profile => {
+let getPath = (profile: option(string)) => {
   let config = loadConfig();
   switch (profile) {
   | Some(name) => config.basePath ++ "/" ++ name ++ ".json"

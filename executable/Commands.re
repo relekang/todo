@@ -81,9 +81,8 @@ let listFormatSimple = (profile, next, rest) => {
   };
 };
 
-let listTodos = format => {
+let listTodos = (profile, format) => {
   open Pastel;
-  let profile = None;
   let data = Storage.listTodos(profile);
   let next = Storage.next(profile);
   let (_, rest) = List.partition(current => Some(current) == next, data);
@@ -97,15 +96,13 @@ let listTodos = format => {
   |> Console.log;
 };
 
-let add = item => {
-  let profile = None;
+let add = (profile, item) => {
   Storage.add(profile, item);
   next(profile);
   ();
 };
 
-let complete = item => {
-  let profile = None;
+let complete = (profile, item) => {
   Storage.remove(profile, item);
   next(profile);
   ();
