@@ -30,7 +30,11 @@ echo -e "${bold}Released $(git describe --abbrev=0).${reset} Publishing it."
 git push --follow-tags origin master 
 
 cd _release
-  npm publish
+  if [[ "$1" == "pre"* ]]; then
+    npm publish --prerelease
+  else
+    npm publish
+  fi
 cd -
 
 echo -e "${green}${bold}All done 🚀${reset}"

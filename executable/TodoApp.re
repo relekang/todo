@@ -1,5 +1,5 @@
 open Cmdliner;
-let version = "0.4.0";
+let version = "2.0.0-rc.0";
 
 let default = (
   Term.(const(_ => Commands.next(None)) $ const()),

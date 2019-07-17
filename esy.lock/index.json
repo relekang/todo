@@ -1,6 +1,6 @@
 {
   "checksum": "178fce5dd908c9383b473b10b82ad8ff",
-  "root": "@relekang/todo-re@link-dev:./package.json",
+  "root": "@relekang/todo@link-dev:./package.json",
   "node": {
     "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#cca65f99674ed2d954d28788edeb8c57fada5ed0@d41d8cd9": {
       "id":
@@ -77,9 +77,9 @@
       "dependencies": [],
       "devDependencies": []
     },
-    "@relekang/todo-re@link-dev:./package.json": {
-      "id": "@relekang/todo-re@link-dev:./package.json",
-      "name": "@relekang/todo-re",
+    "@relekang/todo@link-dev:./package.json": {
+      "id": "@relekang/todo@link-dev:./package.json",
+      "name": "@relekang/todo",
       "version": "link-dev:./package.json",
       "source": {
         "type": "link-dev",
