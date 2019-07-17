@@ -50,7 +50,8 @@ let listFormatBitbar = (profile, next, rest) => {
   | None =>
     Bitbar.(
       [
-        Item({title: ":white_checkmark:", action: None, nestedItems: []}),
+        Item({title: ":white_check_mark:", action: None, nestedItems: []}),
+        Line,
         Refresh,
       ]
       |> linesToString
