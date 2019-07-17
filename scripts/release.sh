@@ -31,7 +31,7 @@ git push --follow-tags origin master
 
 cd _release
   if [[ "$1" == "pre"* ]]; then
-    npm publish --prerelease
+    npm publish --tag prerelease
   else
     npm publish
   fi
