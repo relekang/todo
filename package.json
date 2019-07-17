@@ -2,6 +2,7 @@
   "name": "@relekang/todo",
   "version": "2.0.0-rc.1",
   "description": "A todo cli",
+  "license": "MIT",
   "esy": {
     "build": "dune build -p todo",
     "buildDev": "pesy",
