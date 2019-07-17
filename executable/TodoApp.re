@@ -17,7 +17,7 @@ let default = (
 let next = {
   Term.(
     const(profile => Commands.next(profile)) $ CommonOptions.profile,
-    Term.info(
+    info(
       "next",
       ~doc="Show next item on the list. This is also the default command.",
     ),
@@ -38,7 +38,7 @@ let listTodos = {
     })
     $ format
     $ CommonOptions.profile,
-    Term.info("list", ~doc="List all todos"),
+    info("list", ~doc="List all todos"),
   );
 };
 
@@ -57,7 +57,7 @@ let add = {
     })
     $ item
     $ CommonOptions.profile,
-    Term.info("add", ~doc="Add a new item."),
+    info("add", ~doc="Add a new item."),
   );
 };
 
@@ -70,15 +70,29 @@ let complete = {
     );
 
   Term.(
-    const((item, profile) => {
-      Commands.complete(profile, item);
-      ();
-    })
+    const((item, profile) => Commands.complete(profile, item))
     $ item
     $ CommonOptions.profile,
-    Term.info("complete", ~doc="Complete an item. This will remove it."),
+    info("complete", ~doc="Complete an item. This will remove it."),
+  );
+};
+
+let profiles = {
+  let commandArg =
+    Arg.(value & pos(0, string, "") & info([], ~doc="The operation"));
+  let nameArg =
+    Arg.(
+      value & pos(1, string, "") & info([], ~doc="The name of the profile")
+    );
+
+  Term.(
+    const((command, name) => Commands.profiles(command, name))
+    $ commandArg
+    $ nameArg,
+    info("profiles", ~doc=""),
   );
 };
 
 let _ =
-  Term.eval_choice(default, [next, listTodos, add, complete]) |> Term.exit;
+  Term.eval_choice(default, [next, listTodos, add, complete, profiles])
+  |> Term.exit;

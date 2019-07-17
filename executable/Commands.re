@@ -107,3 +107,35 @@ let complete = (profile, item) => {
   next(profile);
   ();
 };
+
+let profiles = (command, name) => {
+  Pastel.(
+    switch (command) {
+    | "add" =>
+      let config = Storage.loadConfig();
+      let _ =
+        Storage.saveConfig({
+          ...config,
+          profiles: [name, ...config.profiles],
+        });
+      <Pastel color=Green> "Done." </Pastel> |> Console.log;
+    | "list" =>
+      Storage.loadConfig().profiles
+      |> List.map(profile => profile ++ "\n")
+      |> Util.concatStrings
+      |> Console.log
+    | "activate" =>
+      let config = Storage.loadConfig();
+      let _ = Storage.saveConfig({...config, currentProfile: name});
+      <Pastel color=Green> "Done." </Pastel> |> Console.log;
+    | "remove" =>
+      let config = Storage.loadConfig();
+      let (_, profiles) =
+        List.partition(current => current == name, config.profiles);
+      let _ = Storage.saveConfig({...config, profiles});
+      <Pastel color=Green> "Done." </Pastel> |> Console.log;
+    | _ =>
+      <Pastel color=Red> "Unknown profile command." </Pastel> |> Console.log
+    }
+  );
+};

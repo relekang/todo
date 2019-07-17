@@ -6,6 +6,22 @@ type config = {
   profiles: list(string),
 };
 
+let saveConfig = data => {
+  Yojson.Basic.Util.(
+    Yojson.Basic.to_file(
+      configPath,
+      `Assoc([
+        ("basePath", `String(data.basePath)),
+        ("currentProfile", `String(data.currentProfile)),
+        (
+          "profiles",
+          `List(List.map(item => `String(item), data.profiles)),
+        ),
+      ]),
+    )
+  );
+  data;
+};
 let loadConfig = () => {
   Yojson.Basic.Util.(
     switch (Yojson.Basic.from_file(configPath)) {
@@ -14,11 +30,13 @@ let loadConfig = () => {
         currentProfile: json |> member("currentProfile") |> to_string,
         profiles: json |> member("profiles") |> to_list |> filter_string,
       }
-    | exception (Sys_error(_)) => {
+    | exception (Sys_error(_)) =>
+      {
         basePath: Unix.getenv("HOME"),
         currentProfile: "default",
         profiles: ["default"],
       }
+      |> saveConfig
     }
   );
 };
