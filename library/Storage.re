@@ -22,12 +22,10 @@ let save = (profile, data: list(string)) => {
   );
 };
 
-let listTodos = profile => {
-  load(profile);
-};
+let all = load;
 
 let next = profile =>
-  switch (listTodos(profile) |> List.hd) {
+  switch (all(profile) |> List.hd) {
   | item => Some(item)
   | exception (Failure(_)) => None
   };

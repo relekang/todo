@@ -83,7 +83,7 @@ let listFormatSimple = (profile, next, rest) => {
 
 let listTodos = (profile, format) => {
   open Pastel;
-  let data = Storage.listTodos(profile);
+  let data = Storage.all(profile);
   let next = Storage.next(profile);
   let (_, rest) = List.partition(current => Some(current) == next, data);
 
