@@ -6,7 +6,11 @@ module CommonOptions = {
   let profile =
     value
     & opt(some(string), None)
-    & info(["p", "profile"], ~doc="The profile to use to load the data.");
+    & info(
+        ["p", "profile"],
+        ~docv="<profile>",
+        ~doc="The profile to use to load the data.",
+      );
 };
 
 let default = (
@@ -29,7 +33,7 @@ let listTodos = {
     Arg.(
       value
       & opt(string, "simple")
-      & info(["f", "format"], ~doc="The format to output.")
+      & info(["f", "format"], ~docv="<format>", ~doc="The format to output.")
     );
   Term.(
     const(ListTodos.run) $ CommonOptions.profile $ format,
@@ -40,9 +44,9 @@ let listTodos = {
 let add = {
   let item =
     Arg.(
-      value
-      & pos(0, string, "")
-      & info([], ~docv="string", ~doc="The name of the item to add.")
+      required
+      & pos(0, some(string), None)
+      & info([], ~docv="name", ~doc="The name of the item to add.")
     );
   let priority =
     Arg.(
@@ -63,9 +67,9 @@ let add = {
 let complete = {
   let item =
     Arg.(
-      value
-      & pos(0, string, "")
-      & info([], ~docv="string", ~doc="The name of the item to remove.")
+      required
+      & pos(0, some(string), None)
+      & info([], ~docv="name", ~doc="The name of the item to remove.")
     );
 
   Term.(
@@ -76,15 +80,31 @@ let complete = {
 
 let profiles = {
   let commandArg =
-    Arg.(value & pos(0, string, "") & info([], ~doc="The operation"));
+    Arg.(
+      required
+      & pos(0, some(string), None)
+      & info(
+          [],
+          ~docv="sub-command",
+          ~doc=
+            "The operation to do with the profile. One of add, remove, list and activate.",
+        )
+    );
   let nameArg =
     Arg.(
-      value & pos(1, string, "") & info([], ~doc="The name of the profile")
+      value
+      & pos(1, string, "")
+      & info([], ~docv="name", ~doc="The name of the profile")
     );
 
   Term.(
     const(Profiles.run) $ commandArg $ nameArg,
-    info("profiles", ~doc=""),
+    info(
+      "profiles",
+      ~doc=
+        "Manage profiles. A profile is a different todo list.
+        Different profiles are stored in different files.",
+    ),
   );
 };
 
