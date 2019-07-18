@@ -1,48 +1,5 @@
-let configPath = Unix.getenv("HOME") ++ "/.todo-config.json";
-
-type config = {
-  basePath: string,
-  currentProfile: string,
-  profiles: list(string),
-};
-
-let saveConfig = data => {
-  Yojson.Basic.Util.(
-    Yojson.Basic.to_file(
-      configPath,
-      `Assoc([
-        ("basePath", `String(data.basePath)),
-        ("currentProfile", `String(data.currentProfile)),
-        (
-          "profiles",
-          `List(List.map(item => `String(item), data.profiles)),
-        ),
-      ]),
-    )
-  );
-  data;
-};
-let loadConfig = () => {
-  Yojson.Basic.Util.(
-    switch (Yojson.Basic.from_file(configPath)) {
-    | json => {
-        basePath: json |> member("basePath") |> to_string,
-        currentProfile: json |> member("currentProfile") |> to_string,
-        profiles: json |> member("profiles") |> to_list |> filter_string,
-      }
-    | exception (Sys_error(_)) =>
-      {
-        basePath: Unix.getenv("HOME"),
-        currentProfile: "default",
-        profiles: ["default"],
-      }
-      |> saveConfig
-    }
-  );
-};
-
 let getPath = (profile: option(string)) => {
-  let config = loadConfig();
+  let config = Config.load();
   switch (profile) {
   | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
   | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
@@ -76,11 +33,12 @@ let next = profile =>
   };
 
 let add = (profile, item, priority) => {
-  let data = if (priority) {
-    [item, ...load(profile)];
-  } else {
-    List.append(load(profile), [item]);
-  }
+  let data =
+    if (priority) {
+      [item, ...load(profile)];
+    } else {
+      List.append(load(profile), [item]);
+    };
   save(profile, data);
 };
 

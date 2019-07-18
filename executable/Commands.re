@@ -112,27 +112,23 @@ let profiles = (command, name) => {
   Pastel.(
     switch (command) {
     | "add" =>
-      let config = Storage.loadConfig();
-      let _ =
-        Storage.saveConfig({
-          ...config,
-          profiles: [name, ...config.profiles],
-        });
+      let config = Config.load();
+      let _ = Config.save({...config, profiles: [name, ...config.profiles]});
       <Pastel color=Green> "Done." </Pastel> |> Console.log;
     | "list" =>
-      Storage.loadConfig().profiles
+      Config.load().profiles
       |> List.map(profile => profile ++ "\n")
       |> Util.concatStrings
       |> Console.log
     | "activate" =>
-      let config = Storage.loadConfig();
-      let _ = Storage.saveConfig({...config, currentProfile: name});
+      let config = Config.load();
+      let _ = Config.save({...config, currentProfile: name});
       <Pastel color=Green> "Done." </Pastel> |> Console.log;
     | "remove" =>
-      let config = Storage.loadConfig();
+      let config = Config.load();
       let (_, profiles) =
         List.partition(current => current == name, config.profiles);
-      let _ = Storage.saveConfig({...config, profiles});
+      let _ = Config.save({...config, profiles});
       <Pastel color=Green> "Done." </Pastel> |> Console.log;
     | _ =>
       <Pastel color=Red> "Unknown profile command." </Pastel> |> Console.log
