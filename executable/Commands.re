@@ -96,8 +96,8 @@ let listTodos = (profile, format) => {
   |> Console.log;
 };
 
-let add = (profile, item) => {
-  Storage.add(profile, item);
+let add = (profile, item, priority) => {
+  Storage.add(profile, item, priority);
   next(profile);
   ();
 };

@@ -49,13 +49,19 @@ let add = {
       & pos(0, string, "")
       & info([], ~docv="string", ~doc="The name of the item to add.")
     );
+  let priority =
+    Arg.(
+      value
+      &flag
+      & info(["P", "priority"],  ~doc="Should this go to the top of the list.")
+    );
 
   Term.(
-    const((item, profile) => {
-      Commands.add(profile, item);
+    const((item, priority, profile) => {
+      Commands.add(profile, item, priority);
       ();
     })
-    $ item
+    $ item $ priority
     $ CommonOptions.profile,
     info("add", ~doc="Add a new item."),
   );

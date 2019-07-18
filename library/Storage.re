@@ -75,8 +75,12 @@ let next = profile =>
   | exception (Failure(_)) => None
   };
 
-let add = (profile, item: string) => {
-  let data = List.append(load(profile), [item]);
+let add = (profile, item, priority) => {
+  let data = if (priority) {
+    [item, ...load(profile)];
+  } else {
+    List.append(load(profile), [item]);
+  }
   save(profile, data);
 };
 
