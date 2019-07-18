@@ -10,13 +10,13 @@ module CommonOptions = {
 };
 
 let default = (
-  Term.(const(profile => Commands.next(profile)) $ CommonOptions.profile),
+  Term.(const(profile => Next.run(profile)) $ CommonOptions.profile),
   Term.info("todo", ~version, ~doc="Manage all the things to do."),
 );
 
 let next = {
   Term.(
-    const(profile => Commands.next(profile)) $ CommonOptions.profile,
+    const(profile => Next.run(profile)) $ CommonOptions.profile,
     info(
       "next",
       ~doc="Show next item on the list. This is also the default command.",
@@ -32,10 +32,7 @@ let listTodos = {
       & info(["f", "format"], ~doc="The format to output.")
     );
   Term.(
-    const((format, profile) => {
-      Commands.listTodos(profile, format);
-      ();
-    })
+    const((format, profile) => ListTodos.run(profile, format))
     $ format
     $ CommonOptions.profile,
     info("list", ~doc="List all todos"),
@@ -52,16 +49,20 @@ let add = {
   let priority =
     Arg.(
       value
-      &flag
-      & info(["P", "priority"],  ~doc="Should this go to the top of the list.")
+      & flag
+      & info(
+          ["P", "priority"],
+          ~doc="Should this go to the top of the list.",
+        )
     );
 
   Term.(
     const((item, priority, profile) => {
-      Commands.add(profile, item, priority);
+      Add.run(profile, item, priority);
       ();
     })
-    $ item $ priority
+    $ item
+    $ priority
     $ CommonOptions.profile,
     info("add", ~doc="Add a new item."),
   );
@@ -76,7 +77,7 @@ let complete = {
     );
 
   Term.(
-    const((item, profile) => Commands.complete(profile, item))
+    const((item, profile) => Complete.run(profile, item))
     $ item
     $ CommonOptions.profile,
     info("complete", ~doc="Complete an item. This will remove it."),
@@ -92,7 +93,7 @@ let profiles = {
     );
 
   Term.(
-    const((command, name) => Commands.profiles(command, name))
+    const((command, name) => Profiles.run(command, name))
     $ commandArg
     $ nameArg,
     info("profiles", ~doc=""),
