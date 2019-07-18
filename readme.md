@@ -37,12 +37,17 @@ OPTIONS
            `pager', `groff' or `plain'. With `auto', the format is `pager` or
            `plain' whenever the TERM env var is `dumb' or undefined.
 
-       -p <profile>, --profile=<profile>
+       -p <profile>, --profile=<profile> (absent PROFILE env)
            The profile to use to load the data.
 
        --version
            Show version information.
 
+ENVIRONMENT
+       These environment variables affect the execution of todo:
+
+       PROFILE
+           The profile to use to load the data. Same as --profile.
 
 ```
 

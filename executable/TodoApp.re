@@ -3,14 +3,18 @@ let version = "2.0.0-rc.5";
 
 module CommonOptions = {
   open Arg;
-  let profile =
+
+  let profile = {
+    let doc = "The profile to use to load the data.";
     value
     & opt(some(string), None)
     & info(
         ["p", "profile"],
         ~docv="<profile>",
-        ~doc="The profile to use to load the data.",
+        ~env=env_var("PROFILE", ~doc=doc ++ " Same as --profile."),
+        ~doc,
       );
+  };
 };
 
 let default = (
