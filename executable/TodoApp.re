@@ -71,7 +71,7 @@ let add = {
 let complete = {
   let item =
     Arg.(
-      required
+      value
       & pos(0, some(string), None)
       & info([], ~docv="name", ~doc="The name of the item to remove.")
     );
