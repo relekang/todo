@@ -27,6 +27,8 @@ COMMANDS
        next
            Show next item on the list. This is also the default command.
 
+       pri Prioritise all the tasks.
+
        profiles
            Manage profiles. A profile is a different todo list. Different
            profiles are stored in different files.
@@ -48,7 +50,6 @@ ENVIRONMENT
 
        PROFILE
            The profile to use to load the data. Same as --profile.
-
 ```
 
 ## Development

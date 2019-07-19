@@ -82,6 +82,13 @@ let complete = {
   );
 };
 
+let prioritise = {
+  Term.(
+    const(Prioritise.run) $ CommonOptions.profile,
+    info("pri", ~doc="Prioritise all the tasks."),
+  );
+};
+
 let profiles = {
   let commandArg =
     Arg.(
@@ -113,5 +120,8 @@ let profiles = {
 };
 
 let _ =
-  Term.eval_choice(default, [next, listTodos, add, complete, profiles])
+  Term.eval_choice(
+    default,
+    [next, listTodos, add, complete, prioritise, profiles],
+  )
   |> Term.exit;
