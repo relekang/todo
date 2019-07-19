@@ -3,7 +3,7 @@
 ## Install
 
 ```
-npm install @relekang/todo@next
+npm install -g @relekang/todo@prerelease
 ```
 
 ## Usage
@@ -65,7 +65,7 @@ esy build
 After building the project, you can run the main binary that is produced.
 
 ```
-esy x TodoApp.exe 
+esy x TodoApp.exe
 ```
 
 ### Running Tests
