@@ -1,7 +1,16 @@
 type t = list(string);
 
 let getBackend = profile => {
-  FileStorage.backend;
+  open Config;
+  let config = load();
+
+  let {storage} =
+    config.profiles |> List.find(item => item.name == config.currentProfile);
+
+  switch (storage) {
+  | "file" => FileStorage.backend
+  | _ => raise(Sys_error("Missing storage backend for " ++ storage))
+  };
 };
 
 let load: option(string) => t =

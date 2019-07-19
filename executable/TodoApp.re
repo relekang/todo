@@ -107,9 +107,19 @@ let profiles = {
       & pos(1, string, "")
       & info([], ~docv="name", ~doc="The name of the profile")
     );
+  let storageArg =
+    Arg.(
+      value
+      & pos(2, string, "")
+      & info(
+          [],
+          ~docv="storage-backend",
+          ~doc="The name of the storage-backend",
+        )
+    );
 
   Term.(
-    const(Profiles.run) $ commandArg $ nameArg,
+    const(Profiles.run) $ commandArg $ nameArg $ storageArg,
     info(
       "profiles",
       ~doc=

@@ -1,9 +1,14 @@
 let configPath = Unix.getenv("HOME") ++ "/.todo-config.json";
 
+type profile = {
+  name: string,
+  storage: string,
+};
+
 type t = {
   basePath: string,
   currentProfile: string,
-  profiles: list(string),
+  profiles: list(profile),
 };
 
 let save = data => {
@@ -15,7 +20,16 @@ let save = data => {
         ("currentProfile", `String(data.currentProfile)),
         (
           "profiles",
-          `List(List.map(item => `String(item), data.profiles)),
+          `List(
+            List.map(
+              item =>
+                `Assoc([
+                  ("name", `String(item.name)),
+                  ("storage", `String(item.storage)),
+                ]),
+              data.profiles,
+            ),
+          ),
         ),
       ]),
     )
@@ -28,13 +42,22 @@ let load = () => {
     | json => {
         basePath: json |> member("basePath") |> to_string,
         currentProfile: json |> member("currentProfile") |> to_string,
-        profiles: json |> member("profiles") |> to_list |> filter_string,
+        profiles:
+          json
+          |> member("profiles")
+          |> to_list
+          |> List.map(item =>
+               {
+                 name: item |> member("name") |> to_string,
+                 storage: item |> member("storage") |> to_string,
+               }
+             ),
       }
     | exception (Sys_error(_)) =>
       {
         basePath: Unix.getenv("HOME"),
         currentProfile: "default",
-        profiles: ["default"],
+        profiles: [{name: "default", storage: "file"}],
       }
       |> save
     }

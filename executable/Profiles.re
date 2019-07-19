@@ -1,17 +1,23 @@
 open Todo;
 
-let run = (command, name) => {
+let run = (command, name, storage) => {
   Pastel.(
     switch (command) {
     | "add" =>
       let config = Config.load();
-      let _ = Config.save({...config, profiles: [name, ...config.profiles]});
+      let _ =
+        Config.save({
+          ...config,
+          profiles: [{name, storage}, ...config.profiles],
+        });
       <Pastel color=Green> "Done." </Pastel> |> Console.log;
     | "list" =>
-      Config.load().profiles
-      |> List.map(profile => profile ++ "\n")
-      |> Util.concatStrings
-      |> Console.log
+      Config.(
+        load().profiles
+        |> List.map(profile => profile.name ++ "\n")
+        |> Util.concatStrings
+        |> Console.log
+      )
     | "activate" =>
       let config = Config.load();
       let _ = Config.save({...config, currentProfile: name});
@@ -19,7 +25,9 @@ let run = (command, name) => {
     | "remove" =>
       let config = Config.load();
       let (_, profiles) =
-        List.partition(current => current == name, config.profiles);
+        Config.(
+          List.partition(current => current.name == name, config.profiles)
+        );
       let _ = Config.save({...config, profiles});
       <Pastel color=Green> "Done." </Pastel> |> Console.log;
     | _ =>
