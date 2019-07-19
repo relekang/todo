@@ -1,22 +1,21 @@
-let getPath = (profile: option(string)) => {
-  let config = Config.load();
-  switch (profile) {
-  | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
-  | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
-  };
+type t = list(string);
+
+let getBackend = profile => {
+  FileStorage.backend;
 };
 
-let load = profile => {
-  switch (Yojson.Basic.from_file(getPath(profile))) {
-  | json => Yojson.Basic.Util.(json |> to_list |> filter_string)
-  | exception (Sys_error(_)) => []
+let load: option(string) => t =
+  profile => {
+    switch (Yojson.Basic.from_string(getBackend().load(profile))) {
+    | json => Yojson.Basic.Util.(json |> to_list |> filter_string)
+    | exception (Sys_error(_)) => []
+    };
   };
-};
 
-let save = (profile, data: list(string)) => {
-  Yojson.Basic.(
-    to_file(
-      getPath(profile),
+let save = (profile, data: t) => {
+  Yojson.Basic.Util.(
+    getBackend().save(
+      profile,
       `List(List.map(item => `String(item), data)),
     )
   );
