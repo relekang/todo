@@ -3,6 +3,7 @@
   "version": "2.0.0-rc.6",
   "description": "A todo cli",
   "license": "MIT",
+  "keywords": ["cli", "todo", "task-management", "reasonml"],
   "esy": {
     "build": "dune build -p todo",
     "buildDev": "pesy",
