@@ -52,6 +52,34 @@ ENVIRONMENT
            The profile to use to load the data. Same as --profile.
 ```
 
+### Bitbar
+
+To use bitbar with todo just create a file like this in your bitbar plugins folder.
+Adjust the path variable to include wherever you installed it.
+
+```
+#!/bin/bash
+
+PATH=/usr/local/bin
+
+todo list --format bitbar
+```
+
+
+#### Create alias that refreshes bitbar
+
+When using bitbar to show your todos in the menu bar it is nice to have refresh
+instantly when running commands. This bash function below will make sure that when
+you use `t` instead of `todo` it will also refresh bitbar.
+
+
+```bash
+function t() {
+  todo $@
+  /usr/bin/open -g bitbar://refreshPlugin?name=*
+}
+```
+
 ## Development
 
 ```
