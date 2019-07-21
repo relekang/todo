@@ -9,6 +9,7 @@ let getBackend = profile => {
 
   switch (storage) {
   | "file" => FileStorage.backend
+  | "gist" => GistStorage.backend
   | _ => raise(Sys_error("Missing storage backend for " ++ storage))
   };
 };

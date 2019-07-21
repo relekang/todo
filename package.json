@@ -3,44 +3,25 @@
   "version": "2.0.0-rc.7",
   "description": "A todo cli",
   "license": "MIT",
-  "keywords": [
-    "cli",
-    "todo",
-    "task-management",
-    "reasonml"
-  ],
+  "keywords": [ "cli", "todo", "task-management", "reasonml" ],
   "esy": {
     "build": "dune build -p todo",
     "buildDev": "pesy",
-    "release": {
-      "releasedBinaries": [
-        "TodoApp.exe"
-      ]
-    }
+    "release": { "releasedBinaries": [ "TodoApp.exe" ] }
   },
   "buildDirs": {
     "test": {
-      "require": [
-        "todo.lib"
-      ],
+      "require": [ "todo.lib" ],
       "main": "TestTodo",
       "name": "TestTodo.exe"
     },
     "library": {
       "name": "todo.lib",
       "namespace": "Todo",
-      "require": [
-        "yaml",
-        "yojson"
-      ]
+      "require": [ "yojson", "lwt.unix", "github.unix", "console.lib" ]
     },
     "executable": {
-      "require": [
-        "cmdliner",
-        "pastel.lib",
-        "console.lib",
-        "todo.lib"
-      ],
+      "require": [ "cmdliner", "pastel.lib", "console.lib", "todo.lib" ],
       "main": "TodoApp",
       "name": "TodoApp.exe"
     }
@@ -55,6 +36,8 @@
     "@esy-ocaml/reason": "*",
     "@opam/cmdliner": "1.0.4",
     "@opam/dune": ">=1.6.0",
+    "@opam/github": "4.2.0",
+    "@opam/github-unix": "4.2.0",
     "@opam/yaml": "2.0.0",
     "@opam/yojson": "1.7.0",
     "@reason-native/console": "^0.1.0",
