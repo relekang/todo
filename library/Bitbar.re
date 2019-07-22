@@ -1,5 +1,5 @@
 let nestedPrefix = "-- ";
-let argumentsSeparator = "|";
+let argumentsSeparator = " | ";
 
 type action =
   | Link(string)
@@ -19,7 +19,7 @@ type bitbarLine =
 
 let actionToString = action => {
   switch (action) {
-  | Link(url) => " href=" ++ url ++ " "
+  | Link(url) => "href=" ++ url ++ " "
   | Command(command) =>
     let tokens = command |> Array.of_list;
     "terminal=false refresh=true bash="
@@ -33,7 +33,8 @@ let actionToString = action => {
                ? "" : previous ++ " param" ++ string_of_int(i) ++ "=" ++ token,
            "",
          )
-    );
+    )
+    ++ " ";
   | None => ""
   };
 };
@@ -44,7 +45,7 @@ let rec itemToString = item =>
   item.title
   ++ argumentsSeparator
   ++ actionToString(item.action)
-  ++ " emojize=true"
+  ++ "emojize=true"
   ++ "\n"
   ++ (
     item.nestedItems
@@ -55,7 +56,7 @@ let rec itemToString = item =>
 let lineToString = bitbarLine => {
   switch (bitbarLine) {
   | Item(item) => itemToString(item)
-  | Refresh => "Refresh | refresh=true"
+  | Refresh => "Refresh | refresh=true\n"
   | Line => "---\n"
   };
 };

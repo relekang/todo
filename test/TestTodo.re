@@ -1,1 +1,3 @@
-print_endline("Hello!");
+open BitbarTest;
+
+TestFramework.cli();
