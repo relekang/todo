@@ -1,3 +1,5 @@
-open BitbarTest;
+
+open BitbarTests;
+open UtilTests;
 
 TestFramework.cli();
