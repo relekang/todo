@@ -22,6 +22,7 @@ let save = data => {
   );
   data;
 };
+
 let load = () => {
   Yojson.Basic.Util.(
     switch (Yojson.Basic.from_file(configPath)) {

@@ -17,4 +17,3 @@ type bitbarLine =
 let itemToString: item => string;
 let lineToString: bitbarLine => string;
 let linesToString: list(bitbarLine) => string;
-

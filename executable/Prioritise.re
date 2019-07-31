@@ -14,7 +14,11 @@ let sorter =
   });
 
 let run = profile => {
-  let sorted = Storage.all(profile) |> sorter;
-  Storage.save(profile, sorted);
-  Next.run(profile);
+  Result.(
+    Storage.all(profile)
+    |> map(sorter)
+    |> flatMap(Storage.save(profile))
+    |> map(() => Next.run(profile))
+    |> unwrap_exn
+  );
 };

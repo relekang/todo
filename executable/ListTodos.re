@@ -39,38 +39,43 @@ let listFormatBitbar = (profile, next, rest) => {
 };
 
 let listFormatSimple = (profile, next, rest) => {
-  switch (next) {
-  | Some(item) =>
-    [
-      <Pastel>
-        <Pastel bold=true color=Green> " · " </Pastel>
-        <Pastel bold=true> item </Pastel>
-      </Pastel>,
-      ...List.map(
-           item =>
-             <Pastel>
-               <Pastel bold=true color=Green> " · " </Pastel>
-               item
-             </Pastel>,
-           rest,
-         ),
-    ]
-    |> Util.concatLines
-  | None => "Nothing to do"
-  };
+  Pastel.(
+    switch (next) {
+    | Some(item) =>
+      [
+        <Pastel>
+          <Pastel bold=true color=Green> " · " </Pastel>
+          <Pastel bold=true> item </Pastel>
+        </Pastel>,
+        ...List.map(
+             item =>
+               <Pastel>
+                 <Pastel bold=true color=Green> " · " </Pastel>
+                 item
+               </Pastel>,
+             rest,
+           ),
+      ]
+      |> Util.concatLines
+    | None => "Nothing to do"
+    }
+  );
 };
 
 let run = (profile, format) => {
-  open Pastel;
-  let data = Storage.all(profile);
   let next = Storage.next(profile);
-  let (_, rest) = List.partition(current => Some(current) == next, data);
-
-  (
+  let formatter =
     switch (format) {
-    | "bitbar" => listFormatBitbar(profile, next, rest)
-    | _ => listFormatSimple(profile, next, rest)
-    }
-  )
-  |> Console.log;
+    | "bitbar" => listFormatBitbar(profile, next)
+    | _ => listFormatSimple(profile, next)
+    };
+
+  Result.(
+    Storage.all(profile)
+    |> map(List.partition(current => Some(current) == next))
+    |> map(Pervasives.snd)
+    |> map(formatter)
+    |> map(Console.log)
+    |> unwrap_exn
+  );
 };
