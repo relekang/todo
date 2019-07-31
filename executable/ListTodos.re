@@ -73,7 +73,7 @@ let run = (profile, format) => {
   Result.(
     Storage.all(profile)
     |> map(List.partition(current => Some(current) == next))
-    |> map(Pervasives.snd)
+    |> map(snd)
     |> map(formatter)
     |> map(Console.log)
     |> unwrap_exn

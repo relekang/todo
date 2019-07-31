@@ -7,11 +7,12 @@ let printListWithNumbers = all =>
   |> Console.log;
 
 let ask = (profile, all) => {
+  printListWithNumbers(all);
   Console.log("Which one did you complete?");
   switch (read_int_opt()) {
   | Some(input) =>
     input |> Array.get(Array.of_list(all)) |> Storage.remove(profile)
-  | None => Success(Console.log("Oh, so you didn't complete anything?"))
+  | None => Ok(Console.log("Oh, so you didn't complete anything?"))
   };
 };
 

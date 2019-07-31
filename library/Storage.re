@@ -1,25 +1,27 @@
 let get_path = (profile: option(string)) => {
-  let config = Config.load();
-  switch (profile) {
-  | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
-  | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
-  };
+  open Config;
+  Config.load()
+  |> Result.map(config =>
+       switch (profile) {
+       | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
+       | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
+       }
+     );
 };
 
 let load = profile => {
-  Result.wrap(() => Yojson.Basic.from_file(get_path(profile)))
+  get_path(profile)
+  |> Result.map(path => Yojson.Basic.from_file(path))
   |> Result.map(json => Yojson.Basic.Util.(json |> to_list |> filter_string));
 };
 
 let save = (profile, data: list(string)) => {
-  Result.wrap(() =>
-    Yojson.Basic.(
-      to_file(
-        get_path(profile),
-        `List(List.map(item => `String(item), data)),
-      )
-    )
-  );
+  get_path(profile)
+  |> Result.map(path =>
+       Yojson.Basic.(
+         to_file(path, `List(List.map(item => `String(item), data)))
+       )
+     );
 };
 
 let all = profile => load(profile);
@@ -44,7 +46,7 @@ let remove = (profile, item: string) => {
   Result.(
     load(profile)
     |> map(List.partition(current => current == item))
-    |> map(Pervasives.snd)
+    |> map(snd)
     |> flatMap(save(profile))
   );
 };
