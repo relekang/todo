@@ -11,7 +11,7 @@ let printListWithNumbers = all =>
            item
          </Pastel>
        )
-    |> Util.concatLines
+    |> String.concat("\n")
     |> Console.log
   );
 

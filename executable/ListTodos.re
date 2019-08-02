@@ -56,7 +56,7 @@ let listFormatSimple = (profile, next, rest) => {
              rest,
            ),
       ]
-      |> Util.concatLines
+      |> String.concat(" ")
     | None => "Nothing to do"
     }
   );

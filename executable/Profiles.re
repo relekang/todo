@@ -25,7 +25,7 @@ let listProfiles = () =>
   Result.(
     Config.load()
     |> map(({profiles}) => List.map(profile => profile ++ "\n", profiles))
-    |> map(Util.concatStrings)
+    |> map(String.concat("\n"))
     |> map(Console.log)
   );
 
