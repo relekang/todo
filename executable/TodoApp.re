@@ -48,10 +48,17 @@ let listTodos = {
 let add = {
   let item =
     Arg.(
-      required
-      & pos(0, some(string), None)
-      & info([], ~docv="name", ~doc="The name of the item to add.")
+      non_empty
+      & pos_all(string, [])
+      & info(
+          [],
+          ~docv="name",
+          ~doc=
+            "The name of the item to add, if multiple arguments are passed"
+            ++ "in they will be combined together to a sentence.",
+        )
     );
+
   let priority =
     Arg.(
       value
