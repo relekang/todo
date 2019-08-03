@@ -1,17 +1,29 @@
 {
   "name": "@relekang/todo",
-  "version": "2.0.0-rc.7",
+  "version": "2.0.0-rc.8",
   "description": "A todo cli",
   "license": "MIT",
-  "keywords": [ "cli", "todo", "task-management", "reasonml" ],
+  "keywords": [
+    "cli",
+    "todo",
+    "task-management",
+    "reasonml"
+  ],
   "esy": {
     "build": "dune build -p todo",
     "buildDev": "pesy",
-    "release": { "releasedBinaries": [ "TodoApp.exe" ] }
+    "release": {
+      "releasedBinaries": [
+        "TodoApp.exe"
+      ]
+    }
   },
   "buildDirs": {
     "test": {
-      "require": [ "todo.lib", "rely.lib" ],
+      "require": [
+        "todo.lib",
+        "rely.lib"
+      ],
       "ocamloptFlags": [
         "-linkall",
         "-g"
@@ -22,10 +34,18 @@
     "library": {
       "name": "todo.lib",
       "namespace": "Todo",
-      "require": [ "yaml", "yojson" ]
+      "require": [
+        "yaml",
+        "yojson"
+      ]
     },
     "executable": {
-      "require": [ "cmdliner", "pastel.lib", "console.lib", "todo.lib" ],
+      "require": [
+        "cmdliner",
+        "pastel.lib",
+        "console.lib",
+        "todo.lib"
+      ],
       "main": "TodoApp",
       "name": "TodoApp.exe"
     }

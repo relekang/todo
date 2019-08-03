@@ -1,5 +1,5 @@
 open Cmdliner;
-let version = "2.0.0-rc.7";
+let version = "2.0.0-rc.8";
 
 module CommonOptions = {
   open Arg;
