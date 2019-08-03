@@ -1,12 +1,13 @@
 let get_path = (profile: option(string)) => {
-  open Config;
-  Config.load()
-  |> Result.map(config =>
-       switch (profile) {
-       | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
-       | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
-       }
-     );
+  Config.(
+    Config.load()
+    |> Result.map(config =>
+         switch (profile) {
+         | Some(name) => config.basePath ++ "/" ++ name ++ ".json"
+         | None => config.basePath ++ "/" ++ config.currentProfile ++ ".json"
+         }
+       )
+  );
 };
 
 let load = profile => {
@@ -50,3 +51,6 @@ let remove = (profile, item: string) => {
     |> flatMap(save(profile))
   );
 };
+
+let delete_profile = profile =>
+  get_path(Some(profile)) |> Result.map(Unix.unlink);

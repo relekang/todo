@@ -37,21 +37,30 @@ let activate = name =>
     |> map(log_done)
   );
 
-let remove = name =>
-  Result.(
-    Config.load()
-    |> flatMap(contains_profile(name))
-    |> flatMap(config =>
-         Config.save({
-           ...config,
-           profiles:
-             config.profiles
-             |> List.partition(current => current == name)
-             |> snd,
-         })
-       )
-    |> map(log_done)
-  );
+let remove = name => {
+  Console.log("Are you sure you want to delete the profile?");
+  switch (read_line()) {
+  | "y"
+  | "Y"
+  | "yes"
+  | "YES" =>
+    Result.(
+      Config.load()
+      |> flatMap(contains_profile(name))
+      |> flatMap(config =>
+           Config.save({
+             ...config,
+             profiles:
+               config.profiles
+               |> List.partition(current => current == name)
+               |> snd,
+           })
+         )
+      |> map(log_done)
+    )
+  | _ => Ok(Console.log("Okay, no worries"))
+  };
+};
 
 let run = (command, name) => {
   Pastel.(
@@ -66,9 +75,7 @@ let run = (command, name) => {
         Ok();
       }
     )
-    |> Result.catch(error => {
-      Console.log(error)
-    })
+    |> Result.catch(error => {Console.log(error)})
     |> Result.unwrap_exn
   );
 };
