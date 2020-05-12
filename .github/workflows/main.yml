@@ -1,0 +1,26 @@
+---
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install -g esy
+        name: 'npm install -g esy'
+      - run: esy install
+        name: 'esy install'
+      - run: esy pesy
+        name: 'esy pesy'
+      - run: esy build
+        name: 'esy build'
+      - run: esy test
+        name: 'esy test'
+      - run: esy x TodoApp.exe
+        name: 'Run the main binary'
