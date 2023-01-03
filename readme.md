@@ -11,6 +11,7 @@ COMMANDS:
    add, a       add a task
    complete, c  complete a task
    list, l      list tasks
+   profiles, p  use profiles
    help, h      Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
