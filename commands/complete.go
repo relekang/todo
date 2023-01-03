@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/AlecAivazis/survey/v2"
 	"github.com/relekang/todo/core"
 	"github.com/urfave/cli/v2"
 )
@@ -17,13 +18,31 @@ var Complete = &cli.Command{
 		if err != nil {
 			return err
 		}
+
+		if len(todos) == 0 {
+			fmt.Println("Nothing to do!")
+			return nil
+		}
+
+		newList := []string{}
+		toComplete := []string{}
 		todo := strings.Join(cCtx.Args().Slice(), " ")
 		if todo == "" {
-			todo = todos[0]
+			prompt := &survey.MultiSelect{
+				Message: "Select task to complete",
+				Options: todos,
+			}
+
+			err = survey.AskOne(prompt, &toComplete)
+			if err != nil {
+				return err
+			}
+		} else {
+			toComplete = []string{todo}
 		}
-		newList := []string{}
+
 		for _, current := range todos {
-			if current != todo {
+			if toComplete != nil && !core.Contains(toComplete, current) {
 				newList = append(newList, current)
 			}
 		}
@@ -31,7 +50,12 @@ var Complete = &cli.Command{
 		if err != nil {
 			return err
 		}
-		fmt.Println("Completed task:", todo)
+		if len(toComplete) == 1 {
+			fmt.Println("Completed task:", strings.Join(toComplete, ", "))
+		} else {
+			fmt.Println("Completed tasks:", strings.Join(toComplete, ", "))
+		}
+
 		return nil
 	},
 }

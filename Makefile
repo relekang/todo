@@ -5,6 +5,9 @@ GO_FILES := $(shell find . -name '*.go')
 todo: $(GO_FILES)
 		go build
 
+format: $(GO_FILES)
+		gofmt -w $(GO_FILES)
+
 $(HOME)/.local/bin/todo: todo
 		install -m 755 todo $(HOME)/.local/bin/todo
 
