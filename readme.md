@@ -1,7 +1,5 @@
 # todo
-
 ```
-➜ todo -h
 NAME:
    todo - simple todo cli
 
@@ -17,6 +15,3 @@ COMMANDS:
 GLOBAL OPTIONS:
    --help, -h  show help (default: false)
 ```
-
-This was originally built in reason, that version of the code
-can be found in the [reason branch](https://github.com/relekang/todo/tree/reason).

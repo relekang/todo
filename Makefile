@@ -11,4 +11,11 @@ $(HOME)/.local/bin/todo: todo
 $(HOME)/Library/Application\ Support/xbar/plugins/todo.10s.sh:
 	ln -s $(PWD)/xbar.sh $(HOME)/Library/Application\ Support/xbar/plugins/todo.10s.sh
 
+readme.md: todo
+	echo "# todo" > readme.md
+	echo "" > readme.md
+	echo '```' >> readme.md
+	./todo -h >> readme.md
+	echo '```' >> readme.md
+
 .PHONY: default
