@@ -14,7 +14,11 @@ var Complete = &cli.Command{
 	Aliases: []string{"c"},
 	Usage:   "complete a task",
 	Action: func(cCtx *cli.Context) error {
-		todos, err := core.Fetch()
+		profile, err := core.GetActiveProfile()
+		if err != nil {
+			return err
+		}
+		todos, err := core.Fetch(profile)
 		if err != nil {
 			return err
 		}
@@ -46,7 +50,7 @@ var Complete = &cli.Command{
 				newList = append(newList, current)
 			}
 		}
-		err = core.Update(newList)
+		err = core.Update(profile, newList)
 		if err != nil {
 			return err
 		}

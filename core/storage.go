@@ -25,29 +25,28 @@ func readFile(filename string) ([]string, error) {
 	return lines, nil
 }
 
-func writeToFile(filename string, lines []string) error {
+func writeToFile(filename string, content string) error {
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	_, err = file.WriteString(strings.Join(lines, "\n"))
+	_, err = file.WriteString(content)
 	return err
 }
 
-func Fetch() ([]string, error) {
-	home, err := os.UserHomeDir()
+func Fetch(profile Profile) ([]string, error) {
+	lines, err := readFile(profile.Path)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return []string{}, nil
+		}
 		return []string{}, err
 	}
-	return readFile(home + "/.todo.txt")
+	return lines, nil
 }
 
-func Update(lines []string) error {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return err
-	}
-	return writeToFile(home+"/.todo.txt", lines)
+func Update(profile Profile, lines []string) error {
+	return writeToFile(profile.Path, strings.Join(lines, "\n"))
 }

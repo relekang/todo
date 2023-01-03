@@ -19,7 +19,11 @@ var List = &cli.Command{
 			Value:   "text",
 		}},
 	Action: func(cCtx *cli.Context) error {
-		todos, err := core.Fetch()
+		profile, err := core.GetActiveProfile()
+		if err != nil {
+			return err
+		}
+		todos, err := core.Fetch(profile)
 		if err != nil {
 			return err
 		}

@@ -16,7 +16,11 @@ func main() {
 		Usage:  "simple todo cli",
 		Writer: os.Stdout,
 		Action: func(*cli.Context) error {
-			todos, err := core.Fetch()
+			profile, err := core.GetActiveProfile()
+			if err != nil {
+				return err
+			}
+			todos, err := core.Fetch(profile)
 			if err != nil {
 				println("Error: ", err)
 				return err
@@ -28,7 +32,7 @@ func main() {
 			color.New(color.Bold).Println(todos[0])
 			return nil
 		},
-		Commands: []*cli.Command{commands.Add, commands.Complete, commands.List},
+		Commands: []*cli.Command{commands.Add, commands.Complete, commands.List, commands.Profiles},
 	}
 
 	if err := app.Run(os.Args); err != nil {

@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.6
 	github.com/fatih/color v1.13.0
+	github.com/pelletier/go-toml v1.9.5
 	github.com/urfave/cli/v2 v2.23.7
 )
 

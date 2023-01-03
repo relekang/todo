@@ -20,15 +20,19 @@ var Add = &cli.Command{
 		},
 	},
 	Action: func(cCtx *cli.Context) error {
-		todos, err := core.Fetch()
+		profile, err := core.GetActiveProfile()
+		if err != nil {
+			return err
+		}
+		todos, err := core.Fetch(profile)
 		if err != nil {
 			return err
 		}
 		todo := strings.Join(cCtx.Args().Slice(), " ")
 		if cCtx.Bool("priority") {
-			err = core.Update(append([]string{todo}, todos...))
+			err = core.Update(profile, append([]string{todo}, todos...))
 		} else {
-			err = core.Update(append(todos, todo))
+			err = core.Update(profile, append(todos, todo))
 		}
 		if err != nil {
 			return err
